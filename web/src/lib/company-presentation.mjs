@@ -2,7 +2,7 @@
 // field remains the end employer, so `?` must never be replaced with the
 // recruiter or agency recorded in `via`.
 
-const DIRECT_VIA = "—";
+const DIRECT_VIA = /^(n\/?a|tbd|none|null|-|—|–)$/i;
 
 /**
  * Return the label and logo identity appropriate for an application row.
@@ -17,7 +17,7 @@ export function companyPresentation({ company = "", via = "" } = {}) {
   const intermediary = String(via).trim();
 
   if (companyName !== "?") return { label: company, logoName: company };
-  if (intermediary && intermediary !== DIRECT_VIA) {
+  if (intermediary && !DIRECT_VIA.test(intermediary)) {
     return {
       label: `Confidential · via ${intermediary}`,
       logoName: intermediary,

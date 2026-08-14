@@ -12,14 +12,12 @@ test("confidential employer retains agency attribution without promoting it to e
 });
 
 test("confidential employer without a usable intermediary has an honest fallback", () => {
-  assert.deepEqual(companyPresentation({ company: "?", via: "—" }), {
-    label: "Confidential employer",
-    logoName: "Confidential employer",
-  });
-  assert.deepEqual(companyPresentation({ company: "?", via: "  " }), {
-    label: "Confidential employer",
-    logoName: "Confidential employer",
-  });
+  for (const via of ["—", "–", "-", "n/a", "N/A", "tbd", "none", "null", "  "]) {
+    assert.deepEqual(companyPresentation({ company: "?", via }), {
+      label: "Confidential employer",
+      logoName: "Confidential employer",
+    });
+  }
 });
 
 test("known employer display remains unchanged", () => {
